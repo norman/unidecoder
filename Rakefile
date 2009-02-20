@@ -1,28 +1,15 @@
-require 'rake'
-require 'rake/testtask'
-require 'rake/rdoctask'
+require 'newgem'
+require 'lib/unidecoder'
 
-desc 'Default: run unit tests.'
-task :default => [:refresh_db, :test]
-
-desc 'Remove old sqlite file'
-task :refresh_db do
-  `rm -f #{File.dirname(__FILE__)}/test/acts_as_url.sqlite3`
+$hoe = Hoe.new("unidecoder", Unidecoder::Version::STRING) do |p|
+  p.rubyforge_name = "unidecoder"
+  p.author = 'Lucky Sneaks'
+  p.email = 'rsl@luckysneaks.com'
+  p.summary = "Reliably converts Unicode strings to ASCII equivalents."
+  p.description = "A port of Perl's Unidecoder to Ruby. Reliably converts Unicode strings to ASCII equivalents."
+  p.url = 'http://unidecoder.rubyforge.org/'
+  p.test_globs = ['test/**/*_test.rb']
+  p.extra_dev_deps << ['newgem', ">= #{::Newgem::VERSION}"]
 end
 
-desc 'Test the stringex plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
-end
-
-desc 'Generate documentation for the stringex plugin.'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'doc'
-  rdoc.title    = 'Stringex: A String Extension Pack'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.options << '--charset' << 'utf-8'
-  rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+require 'newgem/tasks'

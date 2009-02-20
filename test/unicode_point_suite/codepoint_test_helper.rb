@@ -11,7 +11,7 @@ module CodepointTestHelper
         assert true
       else
         message = "<#{expected.inspect}> expected but was\n<#{actual.inspect}>\n"
-        message << "  defined in #{LuckySneaks::Unidecoder.in_yaml_file(encoded)}"
+        message << "  defined in #{Unidecoder.in_yaml_file(encoded)}"
         raise Test::Unit::AssertionFailedError.new(message)
       end
     end
@@ -19,10 +19,10 @@ module CodepointTestHelper
   
 private
   def encode(codepoint)
-    LuckySneaks::Unidecoder.encode(codepoint)
+    Unidecoder.encode(codepoint)
   end
   
   def which_yaml(codepoint)
-    LuckySneaks::Unidecoder.in_yaml_file(encode(codepoint))
+    Unidecoder.in_yaml_file(encode(codepoint))
   end
 end

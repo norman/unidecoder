@@ -1,1 +1,1 @@
-require "stringex"
+require "unidecoder"
