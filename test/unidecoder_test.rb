@@ -45,9 +45,9 @@ class UnidecoderTest < Test::Unit::TestCase
     "我能吞下玻璃而不伤身体。" => # Chinese
       "Wo Neng Tun Xia Bo Li Er Bu Shang Shen Ti . ",
     "私はガラスを食べられます。それは私を傷つけません。" => # Japanese
-      "Si hagarasuwoShi beraremasu. sorehaSi woShang tukemasen. ",
+      "Si hagarasuwoShi beraremasu. sorehaSi woShang tukemasen. "
   }
-  
+
   def test_unidecoder_decode
     DONT_CONVERT.each do |ascii|
       assert_equal ascii, Unidecoder.decode(ascii)
@@ -56,7 +56,7 @@ class UnidecoderTest < Test::Unit::TestCase
       assert_equal ascii, Unidecoder.decode(unicode)
     end
   end
-  
+
   def test_to_ascii
     DONT_CONVERT.each do |ascii|
       assert_equal ascii, ascii.to_ascii
@@ -65,7 +65,7 @@ class UnidecoderTest < Test::Unit::TestCase
       assert_equal ascii, unicode.to_ascii
     end
   end
-  
+
   def test_unidecoder_encode
     {
       # Strings
@@ -76,7 +76,7 @@ class UnidecoderTest < Test::Unit::TestCase
       assert_equal unicode, Unidecoder.encode(codepoint)
     end
   end
-  
+
   def test_unidecoder_in_yaml_file
     {
       "A" => "x00.yml (line 67)",
