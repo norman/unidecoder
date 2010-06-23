@@ -1,15 +1,28 @@
-require 'newgem'
-require 'lib/unidecoder'
+require "rake"
+require "rake/testtask"
+require "rake/gempackagetask"
+require "rake/clean"
 
-$hoe = Hoe.new("unidecoder", Unidecoder::Version::STRING) do |p|
-  p.rubyforge_name = "unidecoder"
-  p.author = 'Lucky Sneaks'
-  p.email = 'rsl@luckysneaks.com'
-  p.summary = "Reliably converts Unicode strings to ASCII equivalents."
-  p.description = "A port of Perl's Unidecoder to Ruby. Reliably converts Unicode strings to ASCII equivalents."
-  p.url = 'http://unidecoder.rubyforge.org/'
-  p.test_globs = ['test/**/*_test.rb']
-  p.extra_dev_deps << ['newgem', ">= #{::Newgem::VERSION}"]
+task :default => :test
+
+CLEAN << "pkg" << "doc" << "coverage" << ".yardoc"
+Rake::GemPackageTask.new(eval(File.read("unidecoder.gemspec"))) { |pkg| }
+Rake::TestTask.new(:test) { |t| t.pattern = "test/**/*_test.rb" }
+
+begin
+  require "yard"
+  YARD::Rake::YardocTask.new do |t|
+    t.options = ["--output-dir=doc"]
+  end
+rescue LoadError
 end
 
-require 'newgem/tasks'
+begin
+  require "rcov/rcovtask"
+  Rcov::RcovTask.new do |r|
+    r.test_files = FileList["test/**/*_test.rb"]
+    r.verbose = true
+    r.rcov_opts << "--exclude gems/*"
+  end
+rescue LoadError
+end
