@@ -1,7 +1,10 @@
+$:.unshift File.expand_path("../../lib", File.dirname(__FILE__))
+$:.unshift File.expand_path(File.dirname(__FILE__))
+$:.uniq!
 require "test/unit"
+require "unidecoder"
+require "codepoint_test_helper"
 
-require File.join(File.dirname(__FILE__), "../../init")
-require File.join(File.dirname(__FILE__), "codepoint_test_helper")
 include CodepointTestHelper
 
 class BasicLatinTest < Test::Unit::TestCase

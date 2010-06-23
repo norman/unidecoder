@@ -1,5 +1,10 @@
-#encoding: utf-8
+# encoding: utf-8
+$:.unshift File.expand_path("../lib", File.dirname(__FILE__))
+$:.unshift File.expand_path(File.dirname(__FILE__))
+$:.uniq!
 require "test/unit"
+require "unidecoder"
+
 
 class UnidecoderTest < Test::Unit::TestCase
   # Silly phrases courtesy of Frank da Cruz (http://www.columbia.edu/kermit/utf8.html).

@@ -16,12 +16,12 @@ module CodepointTestHelper
       end
     end
   end
-  
+
 private
   def encode(codepoint)
     Unidecoder.encode(codepoint)
   end
-  
+
   def which_yaml(codepoint)
     Unidecoder.in_yaml_file(encode(codepoint))
   end
