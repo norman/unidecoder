@@ -10,7 +10,7 @@ separate library with some added functionality.
 
 The Unidecoder component of Stringex is itself a port of Sean M. Burke's
 [Unidecode](http://search.cpan.org/dist/Text-Unidecode/lib/Text/Unidecode.pm)
-Unidecode Perl module.
+Perl module.
 
 ## Installation
 
