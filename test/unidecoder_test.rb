@@ -86,4 +86,9 @@ class UnidecoderTest < Test::Unit::TestCase
       assert_equal output, Unidecoder.in_yaml_file(character)
     end
   end
+
+  def test_override
+    assert_equal "Juergen", Unidecoder.decode("Jürgen", "ü" => "ue")
+  end
+
 end
