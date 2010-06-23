@@ -1,6 +1,5 @@
+#encoding: utf-8
 require "test/unit"
-
-require File.join(File.dirname(__FILE__), "../init")
 
 class UnidecoderTest < Test::Unit::TestCase
   # Silly phrases courtesy of Frank da Cruz (http://www.columbia.edu/kermit/utf8.html).
@@ -58,12 +57,12 @@ class UnidecoderTest < Test::Unit::TestCase
     end
   end
 
-  def test_to_ascii
+  def test_unidecoder_decode
     DONT_CONVERT.each do |ascii|
-      assert_equal ascii, ascii.to_ascii
+      assert_equal ascii, Unidecoder.decode(ascii)
     end
     CONVERT_PAIRS.each do |unicode, ascii|
-      assert_equal ascii, unicode.to_ascii
+      assert_equal ascii, Unidecoder.decode(unicode)
     end
   end
 
