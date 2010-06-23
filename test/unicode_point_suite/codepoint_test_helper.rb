@@ -12,7 +12,7 @@ module CodepointTestHelper
       else
         message = "<#{expected.inspect}> expected but was\n<#{actual.inspect}>\n"
         message << "  defined in #{Unidecoder.in_yaml_file(encoded)}"
-        raise Test::Unit::AssertionFailedError.new(message)
+        fail message
       end
     end
   end
