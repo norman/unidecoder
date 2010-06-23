@@ -71,7 +71,7 @@ module Unidecoder
 
   define_normalize("unicode") {|str| Unicode.normalize_C(str)}
   define_normalize("active_support") {|str| ActiveSupport::Multibyte::Chars.new(str).normalize(:c).to_s}
-  define_normalize {|str| warn("Please gem install activesupport or unicode."); str}
+  define_normalize {|str| str}
 
   def decode_char(char)
     unpacked = char.unpack("U")[0]
