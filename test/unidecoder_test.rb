@@ -48,13 +48,28 @@ class UnidecoderTest < Test::Unit::TestCase
       "ny ykvl lkvl zkvkyt vzh l mzyq ly",
   }
 
-  def test_unidecoder_decode
-    DONT_CONVERT.each do |ascii|
-      assert_equal ascii, Unidecoder.decode(ascii)
+  def test_should_raise_error_with_invalid_utf8
+    [
+      "\x80",  # Continuation byte, low (cp125)
+      "\x94",  # Continuation byte, mid (cp125)
+      "\x9F",  # Continuation byte, high (cp125)
+      "\xC0",  # Overlong encoding, start of 2-byte sequence, but codepoint < 128
+      "\xC1",  # Overlong encoding, start of 2-byte sequence, but codepoint < 128
+      "\xC2",  # Start of 2-byte sequence, low
+      "\xC8",  # Start of 2-byte sequence, mid
+      "\xDF",  # Start of 2-byte sequence, high
+      "\xE0",  # Start of 3-byte sequence, low
+      "\xE8",  # Start of 3-byte sequence, mid
+      "\xEF",  # Start of 3-byte sequence, high
+      "\xF0",  # Start of 4-byte sequence
+      "\xF1",  # Unused byte
+      "\xFF",  # Restricted byte
+    ].map do |byte|
+      assert_raise ArgumentError, "#{byte.inspect} did not raise error" do
+        Unidecoder.decode("a#{byte}a")
+      end
     end
-    CONVERT_PAIRS.each do |unicode, ascii|
-      assert_equal ascii, Unidecoder.decode(unicode)
-    end
+
   end
 
   def test_unidecoder_decode
