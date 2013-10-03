@@ -18,9 +18,16 @@ Perl module.
 
 ## Usage
 
-    "olá, mundo!".to_ascii                 #=> "ola, mundo!"
-    "你好".to_ascii                        #=> "Ni Hao "
-    "Jürgen Müller".to_ascii               #=> "Jurgen Muller"
+    Unidecoder.decode("olá, mundo!")       #=> "ola, mundo!"
+    Unidecoder.decode("你好")               #=> "Ni Hao "
+    Unidecoder.decode("Jürgen Müller")     #=> "Jurgen Muller"
+    Unidecoder.decode("Jürgen Müller", "ü" => "ue")  #=> "Juergen Mueller"
+
+Or, if you'd like to add a #to_ascii method to all strings
+that runs Unicoder.decode, just require the string extensions:
+
+    require 'unidecoder/string_extensions'
+    "olá, mundo!".to_ascii       #=> "ola, mundo!"
     "Jürgen Müller".to_ascii("ü" => "ue")  #=> "Juergen Mueller"
 
 ## Extra stuff

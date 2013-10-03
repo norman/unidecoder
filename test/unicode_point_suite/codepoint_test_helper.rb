@@ -5,7 +5,7 @@ module CodepointTestHelper
     encode_mes = [encode_mes] if encode_mes.is_a?(String)
     encode_mes.each do |encode_me|
       encoded = encode(encode_me)
-      actual = encoded.to_ascii
+      actual = Unidecoder.decode(encoded)
       if expected == actual
         # Let's not retest it
         assert true

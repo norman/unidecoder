@@ -8,16 +8,11 @@ module Unidecoder
     h[k] = YAML::load_file(File.expand_path("../unidecoder/data/#{k}.yml", __FILE__))
   } unless defined?(CODEPOINTS)
 
-  module StringExtensions
-    # Returns string with its UTF-8 characters transliterated to ASCII ones. Example:
-    #
-    #   "⠋⠗⠁⠝⠉⠑".to_ascii #=> "braille"
-    def to_ascii(*args)
-      Unidecoder.decode(self, *args)
-    end
-  end
 
+  # extend self makes all our instance methods
+  # module methods that can be called like Unidecoder.decode
   extend self
+
   # Transliterates UTF-8 characters to ASCII.
   #
   # @param [#to_s] string The string or string-like object to transliterate.
@@ -89,6 +84,4 @@ module Unidecoder
   end
 end
 
-class String
-  include Unidecoder::StringExtensions
-end
+
