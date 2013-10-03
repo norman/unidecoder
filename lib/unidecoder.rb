@@ -35,11 +35,7 @@ module Unidecoder
   def decode(string, overrides = nil)
     validate_utf8!(string)
     normalize(string.to_s).gsub(/[^\x00-\x7f]/u) do |char|
-      begin
-        decode_overridden(char, overrides) or decode_char(char)
-      rescue
-        "?"
-      end
+      decode_overridden(char, overrides) or decode_char(char)
     end
   end
 
