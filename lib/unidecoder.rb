@@ -29,7 +29,7 @@ module Unidecoder
   # @return [String] The transliterated string.
   def decode(string, overrides = nil)
     validate_utf8!(string)
-    normalize(string.to_s).gsub(/[^\x00-\x7f]/u) do |char|
+    string.gsub(/[^\x00-\x7f]/u) do |char|
       decode_overridden(char, overrides) or decode_char(char)
     end
   end
@@ -51,19 +51,6 @@ module Unidecoder
     "#{code_group(unpacked)}.yml (line #{grouped_point(unpacked) + 2})"
   end
 
-  def define_normalize(library = nil, &block)
-    return if method_defined? :normalize
-    begin
-      require library if library
-      define_method(:normalize, &block)
-    rescue LoadError
-    end
-  end
-
-  define_normalize("unicode") {|str| Unicode.normalize_C(str)}
-  define_normalize("active_support") {|str| ActiveSupport::Multibyte::Chars.new(str).normalize(:c).to_s}
-  define_normalize {|str| str}
-
   def decode_char(char)
     unpacked = char.unpack("U")[0]
     CODEPOINTS[code_group(unpacked)][grouped_point(unpacked)]
@@ -82,6 +69,7 @@ module Unidecoder
   def grouped_point(unpacked_character)
     unpacked_character & 255
   end
+
 end
 
 

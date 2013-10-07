@@ -30,12 +30,6 @@ that runs Unicoder.decode, just require the string extensions:
     "olá, mundo!".to_ascii       #=> "ola, mundo!"
     "Jürgen Müller".to_ascii("ü" => "ue")  #=> "Juergen Mueller"
 
-## Extra stuff
-
-If you also install either the [Unicode](http://github.com/blackwinter/unicode)
-**or** [Active Support](http://github.com/rails/rails) gems, Unidecoder will
-also perform Unicode normalization before attempting to transliterate strings
-to ASCII.
 
 ## Warnings
 
