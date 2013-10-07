@@ -60,17 +60,27 @@ module Unidecoder
     "#{code_group(unpacked)}.yml (line #{grouped_point(unpacked) + 2})"
   end
 
-  def define_normalize(library = nil, &block)
-    return if method_defined? :normalize
+  def define_normalize(library = nil, lib_defines = nil, &block)
+    return false if method_defined? :normalize
+
     begin
       require library if library
-      define_method(:normalize, &block)
+      if lib_defines
+        if Object.const_defined?(lib_defines)
+          define_method(:normalize, &block)
+          return true
+        end
+      else
+        define_method(:normalize, &block)
+        return true
+      end
     rescue LoadError
     end
+    return false
   end
 
-  define_normalize("unicode") {|str| Unicode.normalize_C(str)}
-  define_normalize("active_support") {|str| ActiveSupport::Multibyte::Chars.new(str).normalize(:c).to_s}
+  define_normalize("unicode", "Unicode") {|str| Unicode.normalize_C(str)}
+  define_normalize("active_support", "ActiveSupport") {|str| ActiveSupport::Multibyte::Chars.new(str).normalize(:c).to_s}
   define_normalize {|str| str}
 
   def decode_char(char)

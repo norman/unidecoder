@@ -111,4 +111,15 @@ class UnidecoderTest < Test::Unit::TestCase
     assert_equal "Juergen", Unidecoder.decode("Jürgen", "ü" => "ue")
   end
 
+  def test_define_normalize_with_submodule_name_clash
+    Unidecoder.send("remove_method", :normalize)
+
+    assert_equal false, Unidecoder.define_normalize("bad_file", "WrongName") {|str| str = 'normalized' }
+    assert_equal false, Unidecoder.define_normalize("unicode", "WrongName") {|str| str = 'normalized' }
+    assert_equal true, Unidecoder.define_normalize {|str| str}
+  ensure
+    # Make sure we un-break the environment.
+    Unidecoder.define_normalize {|str| str}
+  end
+
 end
