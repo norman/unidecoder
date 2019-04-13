@@ -4,7 +4,7 @@ require "yaml"
 module Unidecoder
   # Contains Unicode codepoints, loading as needed from YAML files.
   CODEPOINTS = Hash.new { |h, k|
-    h[k] = YAML::load_file(File.expand_path("../unidecoder/data/#{k}.yml", __FILE__))
+    h[k] = YAML.safe_load(File.read(File.expand_path("../unidecoder/data/#{k}.yml", __FILE__)))
   } unless defined?(CODEPOINTS)
 
   module StringExtensions
