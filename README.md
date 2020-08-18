@@ -1,5 +1,7 @@
 # Unidecoder
 
+** NOTE:** This library is no longer maintained. Please use i18n, Babosa, or Stringex instead.
+
 This library provides methods to transliterate Unicode characters to an ASCII
 approximation.
 
