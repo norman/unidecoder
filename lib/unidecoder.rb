@@ -2,10 +2,9 @@ require "yaml"
 
 # Utilities for transliterating UTF-8 strings to ASCII.
 module Unidecoder
-
   # Contains Unicode codepoints, loading as needed from YAML files.
   CODEPOINTS = Hash.new { |h, k|
-    h[k] = YAML::load_file(File.expand_path("../unidecoder/data/#{k}.yml", __FILE__))
+    h[k] = YAML.safe_load(File.read(File.expand_path("../unidecoder/data/#{k}.yml", __FILE__)))
   } unless defined?(CODEPOINTS)
 
   module StringExtensions
@@ -60,18 +59,9 @@ module Unidecoder
     "#{code_group(unpacked)}.yml (line #{grouped_point(unpacked) + 2})"
   end
 
-  def define_normalize(library = nil, &block)
-    return if method_defined? :normalize
-    begin
-      require library if library
-      define_method(:normalize, &block)
-    rescue LoadError
-    end
+  def normalize(str)
+    str.unicode_normalize
   end
-
-  define_normalize("unicode") {|str| Unicode.normalize_C(str)}
-  define_normalize("active_support") {|str| ActiveSupport::Multibyte::Chars.new(str).normalize(:c).to_s}
-  define_normalize {|str| str}
 
   def decode_char(char)
     unpacked = char.unpack("U")[0]
